@@ -1,0 +1,36 @@
+rem desativa a exibição dos comandos no prompt de comando durante a execução do script
+@echo off
+rem declara a variavel que permite o uso delas dentro do LOOP
+setlocal enabledelayedexpansion
+
+rem define o diretório de origem e destino dos arquivos
+rem origem = pasta qual será buscado o arquivo / destino = pastal qual o arquivo será copiado
+set "source_folder=inserir_diretorio_origem"
+set "destination_folder=inserir_diretorio_destino"
+
+rem inicia o LOOP para cada item listado
+for %%F in (
+"nome_do_arquivo_a_ser_buscado_1"
+"nome_do_arquivo_a_ser_buscado_2"
+"nome_do_arquivo_a_ser_buscado_3"
+rem inicia os comandos que serão realizados para cada item da lista
+) do (
+    rem atribui o valor do item atual do LOOP a variavel file_name. (% %~F significa o valor atual do item )
+    set "file_name=%%~F"
+    rem chama a função copy_files
+    call :copy_files
+)
+rem direciona o código para o final do script
+goto :eof
+
+rem defini a função copy_files
+:copy_files
+rem se na pasta de origem o arquivo for encontrado, ele será copiado para a pasta destino
+if exist "%source_folder%\!file_name!_*.xml" (
+    echo Copiando o arquivo !file_name!_*.xml...
+    copy "%source_folder%\!file_name!_*.xml" "%destination_folder%"
+rem se o arquivo não for localizado na pasta de origem, será exibido a mensagem abaixo
+) else (
+    echo O arquivo !file_name!_*.xml não foi encontrado.
+)
+goto :eof
